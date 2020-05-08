@@ -1,0 +1,2376 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     93118,       2368]
+NotebookOptionsPosition[     90997,       2323]
+NotebookOutlinePosition[     91340,       2338]
+CellTagsIndexPosition[     91297,       2335]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Problem 5, PSET-2, 8.05-2013, MITOCW", "Title",
+ CellChangeTimes->{{3.797864327215994*^9, 3.7978643541721263`*^9}, {
+  3.7978648899459753`*^9, 
+  3.7978648905553308`*^9}},ExpressionUUID->"bd269416-fa5f-4f11-95dc-\
+4e563432ab28"],
+
+Cell[TextData[StyleBox["Here we shall try to determine the eigenvalue of \
+Hamiltonian operator for the quartic potential", "Subsection"]], "Text",
+ CellChangeTimes->{{3.7978643590829916`*^9, 3.7978644029779205`*^9}, {
+   3.797864461519256*^9, 3.7978644657958574`*^9}, 3.797864511771593*^9, {
+   3.7978651644446325`*^9, 
+   3.7978651653883963`*^9}},ExpressionUUID->"b5722ccb-cde3-4efd-a308-\
+f237a42741a6"],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+The method described on Pg 56-57 in Griffith\[CloseCurlyQuote]s QM- Wag the \
+dog, if the divergent tail of solution changes its sign from +\[Infinity] to \
+-\[Infinity], then we just crossed an eigenvalue, the order of eigenvalue can \
+be ascertained by getting close to actual eigenvalue and then counting nodes \
+in the solution in region where it doesn\[CloseCurlyQuote]t diverge.\
+\>", "Section",
+ CellFrame->{{0, 0}, {0, 2}},
+ CellChangeTimes->{{3.797864514671814*^9, 3.797864516748308*^9}, {
+   3.7978645480118876`*^9, 3.79786465045265*^9}, {3.7978647373096547`*^9, 
+   3.7978648737905645`*^9}, {3.79786497388159*^9, 3.7978649997222824`*^9}, 
+   3.797866893100398*^9},ExpressionUUID->"e3692672-8a94-4152-b21d-\
+ac27719649a7"],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Even solutions: The following code will detect eigenvalues of symmetric \
+eigenfunctions, since we put derivative at x=0 as 0, \
+\>", "Subsection",
+ CellFrame->{{0, 0}, {0, 0.5}},
+ CellChangeTimes->{{3.797865020507454*^9, 
+  3.797865073943948*^9}},ExpressionUUID->"e5da860c-ab33-47d7-89f7-\
+1244b4a78fee"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ StyleBox[
+  RowBox[{"Clear", "[", 
+   RowBox[{"x", ",", "y", ",", "temp", 
+    StyleBox[",",
+     FontFamily->"Consolas",
+     FontSize->16,
+     FontWeight->"Bold"], 
+    StyleBox[
+     RowBox[{"x", 
+      StyleBox[
+       StyleBox[
+        StyleBox["l",
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"],
+        FontFamily->"Consolas",
+        FontSize->16,
+        FontWeight->"Bold"],
+       FontFamily->"Consolas",
+       FontSize->16,
+       FontWeight->"Bold"], "im"}]], 
+    StyleBox[",",
+     FontFamily->"Consolas",
+     FontSize->16,
+     FontWeight->"Bold"], 
+    StyleBox[
+     StyleBox[" ",
+      FontFamily->"Consolas",
+      FontSize->16,
+      FontWeight->"Bold"],
+     FontFamily->"Consolas",
+     FontSize->16,
+     FontWeight->"Bold"], 
+    StyleBox[
+     RowBox[{
+      StyleBox[
+       StyleBox["t",
+        FontFamily->"Consolas",
+        FontSize->16,
+        FontWeight->"Bold"],
+       FontFamily->"Consolas",
+       FontSize->16,
+       FontWeight->"Bold"], "min"}]], ",", "tmax"}], "]"}],
+  FontFamily->"Consolas",
+  FontSize->16,
+  FontWeight->"Bold"], "\[IndentingNewLine]", 
+ StyleBox[
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     StyleBox[
+      RowBox[{"x", 
+       StyleBox[
+        StyleBox[
+         StyleBox[
+          StyleBox["l",
+           FontFamily->"Consolas",
+           FontSize->16,
+           FontWeight->"Bold"],
+          FontFamily->"Consolas",
+          FontSize->16,
+          FontWeight->"Bold"],
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"],
+        FontFamily->"Consolas",
+        FontSize->16,
+        FontWeight->"Bold"], "im"}]], "=", 
+     StyleBox["5",
+      FontFamily->"Consolas",
+      FontSize->16,
+      FontWeight->"Bold"]}], 
+    StyleBox[";",
+     FontFamily->"Consolas",
+     FontSize->16,
+     FontWeight->"Bold"]}], " ", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"solution", " ", "computed", " ", "from"}], " ", "-", 
+     RowBox[{"xlim", " ", "to"}], " ", "+", "xlim"}], "*)"}]}],
+  FontFamily->"Consolas",
+  FontSize->16,
+  FontWeight->"Bold"], "\[IndentingNewLine]", 
+ StyleBox[
+  RowBox[{
+   RowBox[{
+    RowBox[{"tmin", "=", 
+     StyleBox["0",
+      FontFamily->"Consolas",
+      FontSize->16,
+      FontWeight->"Bold"]}], 
+    StyleBox[";",
+     FontFamily->"Consolas",
+     FontSize->16,
+     FontWeight->"Bold"]}], " ", 
+   RowBox[{"(*", " ", 
+    RowBox[{"lower", " ", "limit", " ", "of", " ", "eigenvalue"}], "*)"}]}],
+  FontFamily->"Consolas",
+  FontSize->16,
+  FontWeight->"Bold"], "\[IndentingNewLine]", 
+ RowBox[{
+  StyleBox[
+   RowBox[{
+    StyleBox[
+     RowBox[{"tmax", "=", 
+      StyleBox["1",
+       FontFamily->"Consolas",
+       FontSize->16,
+       FontWeight->"Bold"]}],
+     FontFamily->"Consolas",
+     FontSize->16,
+     FontWeight->"Bold"], 
+    StyleBox[";",
+     FontFamily->"Consolas",
+     FontSize->16,
+     FontWeight->"Bold"]}],
+   FontFamily->"Consolas",
+   FontSize->16,
+   FontWeight->"Bold"], 
+  StyleBox[" ",
+   FontFamily->"Consolas",
+   FontSize->16,
+   FontWeight->"Bold"], 
+  StyleBox[
+   RowBox[{"(*", " ", 
+    RowBox[{"upper", " ", "limit", " ", "of", " ", "eigenvalue"}], "*)"}],
+   FontFamily->"Consolas",
+   FontSize->16,
+   FontWeight->"Bold"]}], "\[IndentingNewLine]", 
+ StyleBox[
+  RowBox[{"s", "=", 
+   RowBox[{"ParametricNDSolve", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"-", "0.5"}], "*", 
+          RowBox[{
+           RowBox[{"y", "''"}], "[", "x", "]"}]}], "+", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            SuperscriptBox["x", "4"], "-", "temp"}], ")"}], "*", 
+          RowBox[{"y", "[", "x", "]"}]}]}], "\[Equal]", "0"}], ",", 
+       RowBox[{
+        RowBox[{"y", "[", "0", "]"}], "\[Equal]", 
+        StyleBox[
+         StyleBox[
+          StyleBox[
+           StyleBox[
+            StyleBox[
+             StyleBox[
+              StyleBox["1",
+               FontFamily->"Consolas",
+               FontSize->16,
+               FontWeight->"Bold"],
+              FontFamily->"Consolas",
+              FontSize->16,
+              FontWeight->"Bold"],
+             FontFamily->"Consolas",
+             FontSize->16,
+             FontWeight->"Bold"],
+            FontFamily->"Consolas",
+            FontSize->16,
+            FontWeight->"Bold"],
+           FontFamily->"Consolas",
+           FontSize->16,
+           FontWeight->"Bold"],
+          FontFamily->"Consolas",
+          FontSize->16,
+          FontWeight->"Bold"],
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"]}], ",", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"y", "'"}], "[", "0", "]"}], "\[Equal]", 
+        StyleBox[
+         StyleBox[
+          StyleBox[
+           StyleBox[
+            StyleBox[
+             StyleBox[
+              StyleBox["0",
+               FontFamily->"Consolas",
+               FontSize->16,
+               FontWeight->"Bold"],
+              FontFamily->"Consolas",
+              FontSize->16,
+              FontWeight->"Bold"],
+             FontFamily->"Consolas",
+             FontSize->16,
+             FontWeight->"Bold"],
+            FontFamily->"Consolas",
+            FontSize->16,
+            FontWeight->"Bold"],
+           FontFamily->"Consolas",
+           FontSize->16,
+           FontWeight->"Bold"],
+          FontFamily->"Consolas",
+          FontSize->16,
+          FontWeight->"Bold"],
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"]}]}], "}"}], ",", "y", ",", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", 
+       RowBox[{
+        StyleBox[
+         StyleBox[
+          StyleBox[
+           StyleBox[
+            StyleBox["-",
+             FontFamily->"Consolas",
+             FontSize->16,
+             FontWeight->"Bold"],
+            FontFamily->"Consolas",
+            FontSize->16,
+            FontWeight->"Bold"],
+           FontFamily->"Consolas",
+           FontSize->16,
+           FontWeight->"Bold"],
+          FontFamily->"Consolas",
+          FontSize->16,
+          FontWeight->"Bold"],
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"], "xlim"}], 
+       StyleBox[
+        StyleBox[
+         StyleBox[
+          StyleBox[
+           StyleBox[
+            StyleBox[
+             StyleBox[
+              StyleBox[",",
+               FontFamily->"Consolas",
+               FontSize->16,
+               FontWeight->"Bold"],
+              FontFamily->"Consolas",
+              FontSize->16,
+              FontWeight->"Bold"],
+             FontFamily->"Consolas",
+             FontSize->16,
+             FontWeight->"Bold"],
+            FontFamily->"Consolas",
+            FontSize->16,
+            FontWeight->"Bold"],
+           FontFamily->"Consolas",
+           FontSize->16,
+           FontWeight->"Bold"],
+          FontFamily->"Consolas",
+          FontSize->16,
+          FontWeight->"Bold"],
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"],
+        FontFamily->"Consolas",
+        FontSize->16,
+        FontWeight->"Bold"], 
+       StyleBox[
+        RowBox[{"x", 
+         StyleBox[
+          StyleBox[
+           StyleBox[
+            StyleBox[
+             StyleBox[
+              StyleBox[
+               StyleBox["l",
+                FontFamily->"Consolas",
+                FontSize->16,
+                FontWeight->"Bold"],
+               FontFamily->"Consolas",
+               FontSize->16,
+               FontWeight->"Bold"],
+              FontFamily->"Consolas",
+              FontSize->16,
+              FontWeight->"Bold"],
+             FontFamily->"Consolas",
+             FontSize->16,
+             FontWeight->"Bold"],
+            FontFamily->"Consolas",
+            FontSize->16,
+            FontWeight->"Bold"],
+           FontFamily->"Consolas",
+           FontSize->16,
+           FontWeight->"Bold"],
+          FontFamily->"Consolas",
+          FontSize->16,
+          FontWeight->"Bold"], "im"}]]}], "}"}], ",", 
+     RowBox[{"{", "temp", "}"}]}], "]"}]}],
+  FontFamily->"Consolas",
+  FontSize->16,
+  FontWeight->"Bold"], "\[IndentingNewLine]", 
+ StyleBox[
+  RowBox[{"Manipulate", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"y1", "=", 
+         RowBox[{
+          RowBox[{"y", "[", "t", "]"}], "/.", "s"}]}], ";"}], "/.", "s"}], 
+      ",", 
+      RowBox[{"Plot", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"y1", "[", "x", "]"}], "/.", "s"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", 
+          RowBox[{
+           StyleBox[
+            StyleBox[
+             StyleBox[
+              StyleBox[
+               StyleBox[
+                StyleBox[
+                 StyleBox[
+                  StyleBox["-",
+                   FontFamily->"Consolas",
+                   FontSize->16,
+                   FontWeight->"Bold"],
+                  FontFamily->"Consolas",
+                  FontSize->16,
+                  FontWeight->"Bold"],
+                 FontFamily->"Consolas",
+                 FontSize->16,
+                 FontWeight->"Bold"],
+                FontFamily->"Consolas",
+                FontSize->16,
+                FontWeight->"Bold"],
+               FontFamily->"Consolas",
+               FontSize->16,
+               FontWeight->"Bold"],
+              FontFamily->"Consolas",
+              FontSize->16,
+              FontWeight->"Bold"],
+             FontFamily->"Consolas",
+             FontSize->16,
+             FontWeight->"Bold"],
+            FontFamily->"Consolas",
+            FontSize->16,
+            FontWeight->"Bold"], 
+           StyleBox[
+            RowBox[{
+             StyleBox["xm",
+              FontFamily->"Consolas",
+              FontSize->16,
+              FontWeight->"Bold"], "in"}]]}], ",", 
+          StyleBox[
+           RowBox[{
+            StyleBox[
+             StyleBox[
+              StyleBox[
+               StyleBox[
+                StyleBox[
+                 StyleBox[
+                  StyleBox[
+                   StyleBox[
+                    StyleBox["x",
+                    FontFamily->"Consolas",
+                    FontSize->16,
+                    FontWeight->"Bold"],
+                    FontFamily->"Consolas",
+                    FontSize->16,
+                    FontWeight->"Bold"],
+                   FontFamily->"Consolas",
+                   FontSize->16,
+                   FontWeight->"Bold"],
+                  FontFamily->"Consolas",
+                  FontSize->16,
+                  FontWeight->"Bold"],
+                 FontFamily->"Consolas",
+                 FontSize->16,
+                 FontWeight->"Bold"],
+                FontFamily->"Consolas",
+                FontSize->16,
+                FontWeight->"Bold"],
+               FontFamily->"Consolas",
+               FontSize->16,
+               FontWeight->"Bold"],
+              FontFamily->"Consolas",
+              FontSize->16,
+              FontWeight->"Bold"],
+             FontFamily->"Consolas",
+             FontSize->16,
+             FontWeight->"Bold"], "m", 
+            StyleBox[
+             StyleBox[
+              StyleBox[
+               StyleBox[
+                StyleBox[
+                 StyleBox[
+                  StyleBox[
+                   StyleBox[
+                    StyleBox[
+                    StyleBox["i",
+                    FontFamily->"Consolas",
+                    FontSize->16,
+                    FontWeight->"Bold"],
+                    FontFamily->"Consolas",
+                    FontSize->16,
+                    FontWeight->"Bold"],
+                    FontFamily->"Consolas",
+                    FontSize->16,
+                    FontWeight->"Bold"],
+                   FontFamily->"Consolas",
+                   FontSize->16,
+                   FontWeight->"Bold"],
+                  FontFamily->"Consolas",
+                  FontSize->16,
+                  FontWeight->"Bold"],
+                 FontFamily->"Consolas",
+                 FontSize->16,
+                 FontWeight->"Bold"],
+                FontFamily->"Consolas",
+                FontSize->16,
+                FontWeight->"Bold"],
+               FontFamily->"Consolas",
+               FontSize->16,
+               FontWeight->"Bold"],
+              FontFamily->"Consolas",
+              FontSize->16,
+              FontWeight->"Bold"],
+             FontFamily->"Consolas",
+             FontSize->16,
+             FontWeight->"Bold"], 
+            StyleBox[
+             StyleBox[
+              StyleBox[
+               StyleBox[
+                StyleBox[
+                 StyleBox[
+                  StyleBox[
+                   StyleBox["n",
+                    FontFamily->"Consolas",
+                    FontSize->16,
+                    FontWeight->"Bold"],
+                   FontFamily->"Consolas",
+                   FontSize->16,
+                   FontWeight->"Bold"],
+                  FontFamily->"Consolas",
+                  FontSize->16,
+                  FontWeight->"Bold"],
+                 FontFamily->"Consolas",
+                 FontSize->16,
+                 FontWeight->"Bold"],
+                FontFamily->"Consolas",
+                FontSize->16,
+                FontWeight->"Bold"],
+               FontFamily->"Consolas",
+               FontSize->16,
+               FontWeight->"Bold"],
+              FontFamily->"Consolas",
+              FontSize->16,
+              FontWeight->"Bold"],
+             FontFamily->"Consolas",
+             FontSize->16,
+             FontWeight->"Bold"]}]]}], "}"}]}], "]"}]}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"t", ",", 
+      StyleBox[
+       RowBox[{
+        StyleBox["tm",
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"], "in"}]], ",", 
+      StyleBox[
+       RowBox[{
+        StyleBox[
+         StyleBox[
+          StyleBox[
+           StyleBox[
+            StyleBox["t",
+             FontFamily->"Consolas",
+             FontSize->16,
+             FontWeight->"Bold"],
+            FontFamily->"Consolas",
+            FontSize->16,
+            FontWeight->"Bold"],
+           FontFamily->"Consolas",
+           FontSize->16,
+           FontWeight->"Bold"],
+          FontFamily->"Consolas",
+          FontSize->16,
+          FontWeight->"Bold"],
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"], "ma", 
+        StyleBox[
+         StyleBox[
+          StyleBox["x",
+           FontFamily->"Consolas",
+           FontSize->16,
+           FontWeight->"Bold"],
+          FontFamily->"Consolas",
+          FontSize->16,
+          FontWeight->"Bold"],
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"]}]]}], "}"}], 
+    StyleBox[
+     StyleBox[
+      StyleBox[",",
+       FontFamily->"Consolas",
+       FontSize->16,
+       FontWeight->"Bold"],
+      FontFamily->"Consolas",
+      FontSize->16,
+      FontWeight->"Bold"],
+     FontFamily->"Consolas",
+     FontSize->16,
+     FontWeight->"Bold"], 
+    RowBox[{
+     StyleBox[
+      StyleBox[
+       StyleBox["{",
+        FontFamily->"Consolas",
+        FontSize->16,
+        FontWeight->"Bold"],
+       FontFamily->"Consolas",
+       FontSize->16,
+       FontWeight->"Bold"],
+      FontFamily->"Consolas",
+      FontSize->16,
+      FontWeight->"Bold"], 
+     RowBox[{
+      StyleBox[
+       RowBox[{
+        StyleBox["xm",
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"], "in"}]], 
+      StyleBox[
+       StyleBox[
+        StyleBox[",",
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"],
+        FontFamily->"Consolas",
+        FontSize->16,
+        FontWeight->"Bold"],
+       FontFamily->"Consolas",
+       FontSize->16,
+       FontWeight->"Bold"], 
+      StyleBox[
+       RowBox[{
+        StyleBox[
+         StyleBox[
+          StyleBox[
+           StyleBox[
+            StyleBox[
+             StyleBox["0",
+              FontFamily->"Consolas",
+              FontSize->16,
+              FontWeight->"Bold"],
+             FontFamily->"Consolas",
+             FontSize->16,
+             FontWeight->"Bold"],
+            FontFamily->"Consolas",
+            FontSize->16,
+            FontWeight->"Bold"],
+           FontFamily->"Consolas",
+           FontSize->16,
+           FontWeight->"Bold"],
+          FontFamily->"Consolas",
+          FontSize->16,
+          FontWeight->"Bold"],
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"], ".0", 
+        StyleBox[
+         StyleBox[
+          StyleBox[
+           StyleBox["1",
+            FontFamily->"Consolas",
+            FontSize->16,
+            FontWeight->"Bold"],
+           FontFamily->"Consolas",
+           FontSize->16,
+           FontWeight->"Bold"],
+          FontFamily->"Consolas",
+          FontSize->16,
+          FontWeight->"Bold"],
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"]}]], 
+      StyleBox[
+       StyleBox[
+        StyleBox[",",
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"],
+        FontFamily->"Consolas",
+        FontSize->16,
+        FontWeight->"Bold"],
+       FontFamily->"Consolas",
+       FontSize->16,
+       FontWeight->"Bold"], 
+      StyleBox[
+       RowBox[{
+        StyleBox[
+         StyleBox[
+          StyleBox[
+           StyleBox[
+            StyleBox[
+             StyleBox["x",
+              FontFamily->"Consolas",
+              FontSize->16,
+              FontWeight->"Bold"],
+             FontFamily->"Consolas",
+             FontSize->16,
+             FontWeight->"Bold"],
+            FontFamily->"Consolas",
+            FontSize->16,
+            FontWeight->"Bold"],
+           FontFamily->"Consolas",
+           FontSize->16,
+           FontWeight->"Bold"],
+          FontFamily->"Consolas",
+          FontSize->16,
+          FontWeight->"Bold"],
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"], "li", 
+        StyleBox[
+         StyleBox[
+          StyleBox[
+           StyleBox["m",
+            FontFamily->"Consolas",
+            FontSize->16,
+            FontWeight->"Bold"],
+           FontFamily->"Consolas",
+           FontSize->16,
+           FontWeight->"Bold"],
+          FontFamily->"Consolas",
+          FontSize->16,
+          FontWeight->"Bold"],
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"]}]]}], 
+     StyleBox[
+      StyleBox[
+       StyleBox["}",
+        FontFamily->"Consolas",
+        FontSize->16,
+        FontWeight->"Bold"],
+       FontFamily->"Consolas",
+       FontSize->16,
+       FontWeight->"Bold"],
+      FontFamily->"Consolas",
+      FontSize->16,
+      FontWeight->"Bold"]}]}], "]"}],
+  FontFamily->"Consolas",
+  FontSize->16,
+  FontWeight->"Bold"]}], "Input",
+ CellChangeTimes->{{3.797848419598462*^9, 3.7978484195994253`*^9}, {
+   3.7978489603739862`*^9, 3.797848981081689*^9}, {3.7978491589248705`*^9, 
+   3.7978491663224173`*^9}, {3.797849288142821*^9, 3.7978493745450063`*^9}, {
+   3.7978495801626215`*^9, 3.7978495809814315`*^9}, {3.7978496222057304`*^9, 
+   3.7978496368323774`*^9}, {3.7978498211253977`*^9, 3.797849968984123*^9}, {
+   3.797850067116023*^9, 3.797850159806881*^9}, {3.79785020484301*^9, 
+   3.7978502468484917`*^9}, {3.797850492608474*^9, 3.797850540925661*^9}, {
+   3.7978505973142943`*^9, 3.797850598263757*^9}, {3.7978509406422095`*^9, 
+   3.7978509907025948`*^9}, {3.797851112386434*^9, 3.7978511646918774`*^9}, {
+   3.797851204093678*^9, 3.797851221207767*^9}, {3.7978513179865613`*^9, 
+   3.7978513894019284`*^9}, {3.7978514472599545`*^9, 
+   3.7978515393076773`*^9}, {3.797851599426959*^9, 3.7978516043883905`*^9}, {
+   3.797851684356645*^9, 3.797851695037752*^9}, {3.797851726827113*^9, 
+   3.7978517360830936`*^9}, {3.7978517832058134`*^9, 3.797851791909052*^9}, {
+   3.7978518457604637`*^9, 3.797851866162953*^9}, {3.7978518992185364`*^9, 
+   3.79785190227032*^9}, {3.7978519987141047`*^9, 3.7978520265431547`*^9}, {
+   3.7978523365415773`*^9, 3.7978523729697547`*^9}, {3.797852438098881*^9, 
+   3.7978524653482594`*^9}, {3.7978525339036293`*^9, 
+   3.7978525789812145`*^9}, {3.797864212103612*^9, 3.797864235094271*^9}, 
+   3.7978642663129234`*^9, {3.7978645181774817`*^9, 3.797864518781861*^9}, {
+   3.7978647598839903`*^9, 3.7978647654412003`*^9}, 3.797864911269163*^9, {
+   3.7978652561250167`*^9, 3.7978652828666706`*^9}, {3.797865333360574*^9, 
+   3.797865368837726*^9}, {3.797865421529598*^9, 3.797865604388562*^9}, {
+   3.797865672241643*^9, 3.797865700557703*^9}, {3.7978657322437162`*^9, 
+   3.7978658425572844`*^9}, {3.7978660676258817`*^9, 
+   3.7978661533076715`*^9}, {3.797866551423763*^9, 3.797866586400207*^9}},
+ CellLabel->"In[47]:=",ExpressionUUID->"f4e98768-0c43-4101-b5dd-ba1995ce837c"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"y", "\[Rule]", 
+   TagBox[
+    TemplateBox[{RowBox[{
+        StyleBox[
+         TagBox["ParametricFunction", "SummaryHead"], 
+         "NonInterpretableSummary"], 
+        StyleBox["[", "NonInterpretableSummary"], 
+        DynamicModuleBox[{
+         Typeset`open$$ = False, Typeset`embedState$$ = "Ready"}, 
+         TemplateBox[{
+           PaneSelectorBox[{False -> GridBox[{{
+                 PaneBox[
+                  ButtonBox[
+                   DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "SquarePlusIconMedium"]], 
+                   ButtonFunction :> (Typeset`open$$ = True), Appearance -> 
+                   None, Evaluator -> Automatic, Method -> "Preemptive"], 
+                  Alignment -> {Center, Center}, ImageSize -> 
+                  Dynamic[{
+                    Automatic, 3.5 CurrentValue["FontCapHeight"]/
+                    AbsoluteCurrentValue[Magnification]}]], 
+                 GraphicsBox[{{}, {}, {
+                    GrayLevel[0.55], 
+                    AbsoluteThickness[1.5], 
+                    Opacity[1.], 
+                    
+                    LineBox[{{9.09090909090909*^-8, 9.090909090884856*^-8}, {
+                    0.0874367476365131, 0.08197166587636243}, {
+                    0.18222810297558026`, 0.1358255024317191}, {
+                    0.27073779576926765`, 0.13315455086535802`}, {
+                    0.3575112797365835, 0.08143316377978886}, {
+                    0.4516394623155443, -0.007347854733426912}, {
+                    0.5394859823491253, -0.08816932746972758}, {
+                    0.6346872009943513, -0.13787329990112937`}, {
+                    0.7281522108132057, -0.12816574147938434`}, {
+                    0.8153355580866803, -0.07001063326902106}, {
+                    0.9098736039718, 0.02121659675083076}, {
+                    0.9999999090909091, 0.10024804094746914`}}]}, {
+                    GrayLevel[0.55], 
+                    AbsoluteThickness[1.5], 
+                    Opacity[1.], 
+                    
+                    LineBox[{{9.09090909090909*^-8, 9.090909090880112*^-8}, {
+                    0.0874367476365131, 0.08090369567458766}, {
+                    0.18222810297558026`, 0.12746559200130417`}, {
+                    0.27073779576926765`, 0.1116266937044405}, {
+                    0.3575112797365835, 0.046963725126600256`}, {
+                    0.4516394623155443, -0.04509050859182233}, {
+                    0.5394859823491253, -0.11115559892361665`}, {
+                    0.6346872009943513, -0.12642564594664163`}, {
+                    0.7281522108132057, -0.07740196037964171}, {
+                    0.8153355580866803, 0.004179083230780074}, {
+                    0.9098736039718, 0.08937493944143977}, {
+                    0.9999999090909091, 0.12834702174618903`}}]}, {
+                    GrayLevel[0.55], 
+                    AbsoluteThickness[1.5], 
+                    Opacity[1.], 
+                    
+                    LineBox[{{9.09090909090909*^-8, 9.090909090875369*^-8}, {
+                    0.0874367476365131, 0.07984396759533968}, {
+                    0.18222810297558026`, 0.11939549826670079`}, {
+                    0.27073779576926765`, 0.09184904274707059}, {
+                    0.3575112797365835, 0.017913117173780694`}, {
+                    0.4516394623155443, -0.07109962300031061}, {
+                    0.5394859823491253, -0.11717052830989395`}, {
+                    0.6346872009943513, -0.09879571259704382}, {
+                    0.7281522108132057, -0.022693471356141894`}, {
+                    0.8153355580866803, 0.06128703302641453}, {
+                    0.9098736039718, 0.11605625481609519`}, {
+                    0.9999999090909091, 0.10415981267620744`}}]}, {
+                    GrayLevel[0.55], 
+                    AbsoluteThickness[1.5], 
+                    Opacity[1.], 
+                    
+                    LineBox[{{9.09090909090909*^-8, 9.090909090870287*^-8}, {
+                    0.0874367476365131, 0.07879243663407876}, {
+                    0.18222810297558026`, 0.1116081822210312}, {
+                    0.27073779576926765`, 0.07372482040530459}, {
+                    0.3575112797365835, -0.006267252216927747}, {
+                    0.4516394623155443, -0.08743897872291118}, {
+                    0.5394859823491253, -0.11109134853087661`}, {
+                    0.6346872009943513, -0.06371549528296311}, {
+                    0.7281522108132057, 0.02544576624054603}, {
+                    0.8153355580866803, 0.09464282937855747}, {
+                    0.9098736039718, 0.10731931496853601`}, {
+                    0.9999999090909091, 0.0516787429232188}}]}, {
+                    GrayLevel[0.55], 
+                    AbsoluteThickness[1.5], 
+                    Opacity[1.], 
+                    LineBox[{{9.09090909090909*^-8, 9.090909090865543*^-8}, {
+                    0.0874367476365131, 0.07774905743802465}, {
+                    0.18222810297558026`, 0.10409673959866513`}, {
+                    0.27073779576926765`, 0.05716133039337165}, {
+                    0.3575112797365835, -0.026084496726167965`}, {
+                    0.4516394623155443, -0.09591154799603378}, {
+                    0.5394859823491253, -0.09685594593277226}, {
+                    0.6346872009943513, -0.02730376120671303}, {
+                    0.7281522108132057, 0.061646715198529656`}, {
+                    0.8153355580866803, 0.1046634148537508}, {0.9098736039718,
+                     0.07509702498429204}, {
+                    0.9999999090909091, -0.006536873471333553}}]}, {
+                    GrayLevel[0.55], 
+                    AbsoluteThickness[1.5], 
+                    Opacity[1.], 
+                    
+                    LineBox[{{9.09090909090909*^-8, 9.0909090908608*^-8}, {
+                    0.0874367476365131, 0.07671378556951527}, {
+                    0.18222810297558026`, 0.09685439581479163}, {
+                    0.27073779576926765`, 0.042069810325321415`}, {
+                    0.3575112797365835, -0.042006785469922474`}, {
+                    0.4516394623155443, -0.09808544986431629}, {
+                    0.5394859823491253, -0.07760167026270944}, {
+                    0.6346872009943513, 0.0063643674428021085`}, {
+                    0.7281522108132057, 0.08405712128907425}, {
+                    0.8153355580866803, 0.09555213349985489}, {
+                    0.9098736039718, 0.03202960165577907}, {
+                    0.9999999090909091, -0.054402034659985464`}}]}}, 
+                  AspectRatio -> 1, Axes -> {False, False}, 
+                  AxesLabel -> {None, None}, AxesOrigin -> {0, 0}, Background -> 
+                  GrayLevel[0.93], BaseStyle -> {FontFamily -> "Arial"}, 
+                  DisplayFunction -> Identity, 
+                  Frame -> {{True, True}, {True, True}}, 
+                  FrameLabel -> {{None, None}, {None, None}}, FrameStyle -> 
+                  Directive[
+                    Thickness[Tiny], 
+                    GrayLevel[0.7]], 
+                  FrameTicks -> {{None, None}, {None, None}}, 
+                  GridLines -> {None, None}, GridLinesStyle -> Directive[
+                    GrayLevel[0.5, 0.4]], ImageSize -> {Automatic, 
+                    Dynamic[
+                    3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                    Magnification])]}, LabelStyle -> {FontFamily -> "Arial"}, 
+                  Method -> {"ScalingFunctions" -> None}, 
+                  PlotRange -> {All, All}, PlotRangeClipping -> True, 
+                  PlotRangePadding -> {Automatic, Automatic}, 
+                  Ticks -> {Automatic, Automatic}], 
+                 GridBox[{{
+                    RowBox[{
+                    TagBox["\"Expression: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox[
+                    TagBox["y", HoldForm], "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox["\"Parameters: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox[
+                    RowBox[{"{", "temp", "}"}], "SummaryItem"]}]}}, 
+                  GridBoxAlignment -> {
+                   "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, 
+                  AutoDelete -> False, 
+                  GridBoxItemSize -> {
+                   "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+                  GridBoxSpacings -> {
+                   "Columns" -> {{2}}, "Rows" -> {{Automatic}}}, 
+                  BaseStyle -> {
+                   ShowStringCharacters -> False, NumberMarks -> False, 
+                    PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+               GridBoxAlignment -> {"Rows" -> {{Top}}}, AutoDelete -> False, 
+               GridBoxItemSize -> {
+                "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+               BaselinePosition -> {1, 1}], True -> GridBox[{{
+                 PaneBox[
+                  ButtonBox[
+                   DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "SquareMinusIconMedium"]], 
+                   ButtonFunction :> (Typeset`open$$ = False), Appearance -> 
+                   None, Evaluator -> Automatic, Method -> "Preemptive"], 
+                  Alignment -> {Center, Center}, ImageSize -> 
+                  Dynamic[{
+                    Automatic, 3.5 CurrentValue["FontCapHeight"]/
+                    AbsoluteCurrentValue[Magnification]}]], 
+                 GraphicsBox[{{}, {}, {
+                    GrayLevel[0.55], 
+                    AbsoluteThickness[1.5], 
+                    Opacity[1.], 
+                    
+                    LineBox[{{9.09090909090909*^-8, 9.090909090884856*^-8}, {
+                    0.0874367476365131, 0.08197166587636243}, {
+                    0.18222810297558026`, 0.1358255024317191}, {
+                    0.27073779576926765`, 0.13315455086535802`}, {
+                    0.3575112797365835, 0.08143316377978886}, {
+                    0.4516394623155443, -0.007347854733426912}, {
+                    0.5394859823491253, -0.08816932746972758}, {
+                    0.6346872009943513, -0.13787329990112937`}, {
+                    0.7281522108132057, -0.12816574147938434`}, {
+                    0.8153355580866803, -0.07001063326902106}, {
+                    0.9098736039718, 0.02121659675083076}, {
+                    0.9999999090909091, 0.10024804094746914`}}]}, {
+                    GrayLevel[0.55], 
+                    AbsoluteThickness[1.5], 
+                    Opacity[1.], 
+                    
+                    LineBox[{{9.09090909090909*^-8, 9.090909090880112*^-8}, {
+                    0.0874367476365131, 0.08090369567458766}, {
+                    0.18222810297558026`, 0.12746559200130417`}, {
+                    0.27073779576926765`, 0.1116266937044405}, {
+                    0.3575112797365835, 0.046963725126600256`}, {
+                    0.4516394623155443, -0.04509050859182233}, {
+                    0.5394859823491253, -0.11115559892361665`}, {
+                    0.6346872009943513, -0.12642564594664163`}, {
+                    0.7281522108132057, -0.07740196037964171}, {
+                    0.8153355580866803, 0.004179083230780074}, {
+                    0.9098736039718, 0.08937493944143977}, {
+                    0.9999999090909091, 0.12834702174618903`}}]}, {
+                    GrayLevel[0.55], 
+                    AbsoluteThickness[1.5], 
+                    Opacity[1.], 
+                    
+                    LineBox[{{9.09090909090909*^-8, 9.090909090875369*^-8}, {
+                    0.0874367476365131, 0.07984396759533968}, {
+                    0.18222810297558026`, 0.11939549826670079`}, {
+                    0.27073779576926765`, 0.09184904274707059}, {
+                    0.3575112797365835, 0.017913117173780694`}, {
+                    0.4516394623155443, -0.07109962300031061}, {
+                    0.5394859823491253, -0.11717052830989395`}, {
+                    0.6346872009943513, -0.09879571259704382}, {
+                    0.7281522108132057, -0.022693471356141894`}, {
+                    0.8153355580866803, 0.06128703302641453}, {
+                    0.9098736039718, 0.11605625481609519`}, {
+                    0.9999999090909091, 0.10415981267620744`}}]}, {
+                    GrayLevel[0.55], 
+                    AbsoluteThickness[1.5], 
+                    Opacity[1.], 
+                    
+                    LineBox[{{9.09090909090909*^-8, 9.090909090870287*^-8}, {
+                    0.0874367476365131, 0.07879243663407876}, {
+                    0.18222810297558026`, 0.1116081822210312}, {
+                    0.27073779576926765`, 0.07372482040530459}, {
+                    0.3575112797365835, -0.006267252216927747}, {
+                    0.4516394623155443, -0.08743897872291118}, {
+                    0.5394859823491253, -0.11109134853087661`}, {
+                    0.6346872009943513, -0.06371549528296311}, {
+                    0.7281522108132057, 0.02544576624054603}, {
+                    0.8153355580866803, 0.09464282937855747}, {
+                    0.9098736039718, 0.10731931496853601`}, {
+                    0.9999999090909091, 0.0516787429232188}}]}, {
+                    GrayLevel[0.55], 
+                    AbsoluteThickness[1.5], 
+                    Opacity[1.], 
+                    
+                    LineBox[{{9.09090909090909*^-8, 9.090909090865543*^-8}, {
+                    0.0874367476365131, 0.07774905743802465}, {
+                    0.18222810297558026`, 0.10409673959866513`}, {
+                    0.27073779576926765`, 0.05716133039337165}, {
+                    0.3575112797365835, -0.026084496726167965`}, {
+                    0.4516394623155443, -0.09591154799603378}, {
+                    0.5394859823491253, -0.09685594593277226}, {
+                    0.6346872009943513, -0.02730376120671303}, {
+                    0.7281522108132057, 0.061646715198529656`}, {
+                    0.8153355580866803, 0.1046634148537508}, {0.9098736039718,
+                     0.07509702498429204}, {
+                    0.9999999090909091, -0.006536873471333553}}]}, {
+                    GrayLevel[0.55], 
+                    AbsoluteThickness[1.5], 
+                    Opacity[1.], 
+                    
+                    LineBox[{{9.09090909090909*^-8, 9.0909090908608*^-8}, {
+                    0.0874367476365131, 0.07671378556951527}, {
+                    0.18222810297558026`, 0.09685439581479163}, {
+                    0.27073779576926765`, 0.042069810325321415`}, {
+                    0.3575112797365835, -0.042006785469922474`}, {
+                    0.4516394623155443, -0.09808544986431629}, {
+                    0.5394859823491253, -0.07760167026270944}, {
+                    0.6346872009943513, 0.0063643674428021085`}, {
+                    0.7281522108132057, 0.08405712128907425}, {
+                    0.8153355580866803, 0.09555213349985489}, {
+                    0.9098736039718, 0.03202960165577907}, {
+                    0.9999999090909091, -0.054402034659985464`}}]}}, 
+                  AspectRatio -> 1, Axes -> {False, False}, 
+                  AxesLabel -> {None, None}, AxesOrigin -> {0, 0}, Background -> 
+                  GrayLevel[0.93], BaseStyle -> {FontFamily -> "Arial"}, 
+                  DisplayFunction -> Identity, 
+                  Frame -> {{True, True}, {True, True}}, 
+                  FrameLabel -> {{None, None}, {None, None}}, FrameStyle -> 
+                  Directive[
+                    Thickness[Tiny], 
+                    GrayLevel[0.7]], 
+                  FrameTicks -> {{None, None}, {None, None}}, 
+                  GridLines -> {None, None}, GridLinesStyle -> Directive[
+                    GrayLevel[0.5, 0.4]], ImageSize -> {Automatic, 
+                    Dynamic[
+                    3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                    Magnification])]}, LabelStyle -> {FontFamily -> "Arial"}, 
+                  Method -> {"ScalingFunctions" -> None}, 
+                  PlotRange -> {All, All}, PlotRangeClipping -> True, 
+                  PlotRangePadding -> {Automatic, Automatic}, 
+                  Ticks -> {Automatic, Automatic}], 
+                 GridBox[{{
+                    RowBox[{
+                    TagBox["\"Expression: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox[
+                    TagBox["y", HoldForm], "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox["\"Parameters: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox[
+                    RowBox[{"{", "temp", "}"}], "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox["\"Generator: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox["ParametricNDSolve", "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox[
+                    "\"Dependent variables: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox[
+                    RowBox[{"{", "y", "}"}], "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox[
+                    "\"Independent variables: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox[
+                    RowBox[{"{", "x", "}"}], "SummaryItem"]}]}}, 
+                  GridBoxAlignment -> {
+                   "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, 
+                  AutoDelete -> False, 
+                  GridBoxItemSize -> {
+                   "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+                  GridBoxSpacings -> {
+                   "Columns" -> {{2}}, "Rows" -> {{Automatic}}}, 
+                  BaseStyle -> {
+                   ShowStringCharacters -> False, NumberMarks -> False, 
+                    PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+               GridBoxAlignment -> {"Rows" -> {{Top}}}, AutoDelete -> False, 
+               GridBoxItemSize -> {
+                "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+               BaselinePosition -> {1, 1}]}, 
+            Dynamic[Typeset`open$$], ImageSize -> Automatic]}, 
+          "SummaryPanel"], DynamicModuleValues :> {}], 
+        StyleBox["]", "NonInterpretableSummary"]}]},
+     "CopyTag",
+     DisplayFunction->(#& ),
+     InterpretationFunction->("ParametricFunction[<>]"& )],
+    False,
+    Editable->False,
+    SelectWithContents->True,
+    Selectable->False]}], "}"}]], "Output",
+ CellChangeTimes->{
+  3.797848420872429*^9, {3.797848962334751*^9, 3.797848975729*^9}, {
+   3.7978491676777897`*^9, 3.797849169608102*^9}, 3.797849230310998*^9, 
+   3.7978493551504498`*^9, {3.7978495816586227`*^9, 3.797849638940092*^9}, 
+   3.797849683778833*^9, {3.7978498275323095`*^9, 3.7978499705390463`*^9}, {
+   3.797850078425156*^9, 3.797850142233819*^9}, {3.797850182799717*^9, 
+   3.797850252158822*^9}, {3.7978505056946764`*^9, 3.7978505414253607`*^9}, 
+   3.797850599114484*^9, {3.797850974586079*^9, 3.797850991397725*^9}, {
+   3.7978511148939643`*^9, 3.797851139431438*^9}, 3.7978511922525673`*^9, 
+   3.797851339696048*^9, 3.797851390429666*^9, {3.797851505123732*^9, 
+   3.7978515405802326`*^9}, 3.7978516097134514`*^9, 3.797851696345248*^9, 
+   3.797851737389629*^9, 3.797851794379856*^9, {3.797851846639082*^9, 
+   3.797851868163356*^9}, 3.7978519035243506`*^9, {3.79785200229698*^9, 
+   3.7978520271724567`*^9}, 3.797852341012561*^9, 3.7978523739780245`*^9, {
+   3.797852441924197*^9, 3.797852466546002*^9}, {3.7978525410775523`*^9, 
+   3.7978525797591324`*^9}, {3.7978653481493607`*^9, 
+   3.7978653698669643`*^9}, {3.797865429254307*^9, 3.7978654447636194`*^9}, {
+   3.79786547610732*^9, 3.7978654849930973`*^9}, {3.7978655163919415`*^9, 
+   3.797865523748169*^9}, {3.7978655641096973`*^9, 3.7978655822930193`*^9}, {
+   3.797865779592784*^9, 3.797865787076647*^9}, {3.7978658324501877`*^9, 
+   3.7978658438584433`*^9}, 3.797866076427563*^9, 3.7978661576105747`*^9, {
+   3.797866569748608*^9, 3.797866587318864*^9}, 3.7978668256406956`*^9, 
+   3.7978668754068546`*^9},
+ CellLabel->"Out[51]=",ExpressionUUID->"97ea0338-87a9-480a-81ab-e72c9b08e14d"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`t$$ = 0, $CellContext`xmin$$ = 0.01, 
+    Typeset`show$$ = True, Typeset`bookmarkList$$ = {}, 
+    Typeset`bookmarkMode$$ = "Menu", Typeset`animator$$, Typeset`animvar$$ = 
+    1, Typeset`name$$ = "\"untitled\"", Typeset`specs$$ = {{
+      Hold[$CellContext`t$$], 0, 1}, {
+      Hold[$CellContext`xmin$$], 0.01, 5}}, Typeset`size$$ = {
+    235., {48., 52.}}, Typeset`update$$ = 0, Typeset`initDone$$, 
+    Typeset`skipInitDone$$ = True, $CellContext`t$24469$$ = 
+    0, $CellContext`xmin$24470$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`t$$ = 0, $CellContext`xmin$$ = 0.01}, 
+      "ControllerVariables" :> {
+        Hold[$CellContext`t$$, $CellContext`t$24469$$, 0], 
+        Hold[$CellContext`xmin$$, $CellContext`xmin$24470$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> {
+        ReplaceAll[$CellContext`y1 = ReplaceAll[
+            $CellContext`y[$CellContext`t$$], $CellContext`s]; 
+         Null, $CellContext`s], 
+        Plot[
+         ReplaceAll[
+          $CellContext`y1[$CellContext`x], $CellContext`s], {$CellContext`x, \
+-$CellContext`xmin$$, $CellContext`xmin$$}]}, 
+      "Specifications" :> {{$CellContext`t$$, 0, 1}, {$CellContext`xmin$$, 
+         0.01, 5}}, "Options" :> {}, "DefaultOptions" :> {}],
+     ImageSizeCache->{286., {108., 114.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{
+  3.797848420872429*^9, {3.797848962334751*^9, 3.797848975729*^9}, {
+   3.7978491676777897`*^9, 3.797849169608102*^9}, 3.797849230310998*^9, 
+   3.7978493551504498`*^9, {3.7978495816586227`*^9, 3.797849638940092*^9}, 
+   3.797849683778833*^9, {3.7978498275323095`*^9, 3.7978499705390463`*^9}, {
+   3.797850078425156*^9, 3.797850142233819*^9}, {3.797850182799717*^9, 
+   3.797850252158822*^9}, {3.7978505056946764`*^9, 3.7978505414253607`*^9}, 
+   3.797850599114484*^9, {3.797850974586079*^9, 3.797850991397725*^9}, {
+   3.7978511148939643`*^9, 3.797851139431438*^9}, 3.7978511922525673`*^9, 
+   3.797851339696048*^9, 3.797851390429666*^9, {3.797851505123732*^9, 
+   3.7978515405802326`*^9}, 3.7978516097134514`*^9, 3.797851696345248*^9, 
+   3.797851737389629*^9, 3.797851794379856*^9, {3.797851846639082*^9, 
+   3.797851868163356*^9}, 3.7978519035243506`*^9, {3.79785200229698*^9, 
+   3.7978520271724567`*^9}, 3.797852341012561*^9, 3.7978523739780245`*^9, {
+   3.797852441924197*^9, 3.797852466546002*^9}, {3.7978525410775523`*^9, 
+   3.7978525797591324`*^9}, {3.7978653481493607`*^9, 
+   3.7978653698669643`*^9}, {3.797865429254307*^9, 3.7978654447636194`*^9}, {
+   3.79786547610732*^9, 3.7978654849930973`*^9}, {3.7978655163919415`*^9, 
+   3.797865523748169*^9}, {3.7978655641096973`*^9, 3.7978655822930193`*^9}, {
+   3.797865779592784*^9, 3.797865787076647*^9}, {3.7978658324501877`*^9, 
+   3.7978658438584433`*^9}, 3.797866076427563*^9, 3.7978661576105747`*^9, {
+   3.797866569748608*^9, 3.797866587318864*^9}, 3.7978668256406956`*^9, 
+   3.7978668756701546`*^9},
+ CellLabel->"Out[52]=",ExpressionUUID->"b757e924-eea9-4410-86b1-f3b416088709"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Odd solutions: The following code will detect eigenvalues of symmetric \
+eigenfunctions, since we put psi at x=0 as 0, \
+\>", "Subsection",
+ CellFrame->{{0, 0}, {0, 0.5}},
+ CellChangeTimes->{{3.7978661730090704`*^9, 
+  3.797866182850129*^9}},ExpressionUUID->"c8f2d635-9b23-42aa-8f5b-\
+703eac55a07e"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ StyleBox[
+  RowBox[{"Clear", "[", 
+   RowBox[{"x", ",", "y", ",", "temp", 
+    StyleBox[",",
+     FontFamily->"Consolas",
+     FontSize->16,
+     FontWeight->"Bold"], 
+    StyleBox[
+     RowBox[{"x", 
+      StyleBox[
+       StyleBox[
+        StyleBox["l",
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"],
+        FontFamily->"Consolas",
+        FontSize->16,
+        FontWeight->"Bold"],
+       FontFamily->"Consolas",
+       FontSize->16,
+       FontWeight->"Bold"], "im"}]], 
+    StyleBox[",",
+     FontFamily->"Consolas",
+     FontSize->16,
+     FontWeight->"Bold"], 
+    StyleBox[
+     StyleBox[" ",
+      FontFamily->"Consolas",
+      FontSize->16,
+      FontWeight->"Bold"],
+     FontFamily->"Consolas",
+     FontSize->16,
+     FontWeight->"Bold"], 
+    StyleBox[
+     RowBox[{
+      StyleBox[
+       StyleBox["t",
+        FontFamily->"Consolas",
+        FontSize->16,
+        FontWeight->"Bold"],
+       FontFamily->"Consolas",
+       FontSize->16,
+       FontWeight->"Bold"], "min"}]], ",", "tmax"}], "]"}],
+  FontFamily->"Consolas",
+  FontSize->16,
+  FontWeight->"Bold"], "\[IndentingNewLine]", 
+ StyleBox[
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     StyleBox[
+      RowBox[{"x", 
+       StyleBox[
+        StyleBox[
+         StyleBox[
+          StyleBox["l",
+           FontFamily->"Consolas",
+           FontSize->16,
+           FontWeight->"Bold"],
+          FontFamily->"Consolas",
+          FontSize->16,
+          FontWeight->"Bold"],
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"],
+        FontFamily->"Consolas",
+        FontSize->16,
+        FontWeight->"Bold"], "im"}]], "=", 
+     StyleBox["5",
+      FontFamily->"Consolas",
+      FontSize->16,
+      FontWeight->"Bold"]}], 
+    StyleBox[";",
+     FontFamily->"Consolas",
+     FontSize->16,
+     FontWeight->"Bold"]}], " ", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"solution", " ", "computed", " ", "from"}], " ", "-", 
+     RowBox[{"xlim", " ", "to"}], " ", "+", "xlim"}], "*)"}]}],
+  FontFamily->"Consolas",
+  FontSize->16,
+  FontWeight->"Bold"], "\[IndentingNewLine]", 
+ StyleBox[
+  RowBox[{
+   RowBox[{
+    RowBox[{"tmin", "=", 
+     StyleBox["0",
+      FontFamily->"Consolas",
+      FontSize->16,
+      FontWeight->"Bold"]}], 
+    StyleBox[";",
+     FontFamily->"Consolas",
+     FontSize->16,
+     FontWeight->"Bold"]}], " ", 
+   RowBox[{"(*", " ", 
+    RowBox[{"lower", " ", "limit", " ", "of", " ", "eigenvalue"}], "*)"}]}],
+  FontFamily->"Consolas",
+  FontSize->16,
+  FontWeight->"Bold"], "\[IndentingNewLine]", 
+ RowBox[{
+  StyleBox[
+   RowBox[{
+    StyleBox[
+     RowBox[{"tmax", "=", 
+      StyleBox["1",
+       FontFamily->"Consolas",
+       FontSize->16,
+       FontWeight->"Bold"]}],
+     FontFamily->"Consolas",
+     FontSize->16,
+     FontWeight->"Bold"], 
+    StyleBox[";",
+     FontFamily->"Consolas",
+     FontSize->16,
+     FontWeight->"Bold"]}],
+   FontFamily->"Consolas",
+   FontSize->16,
+   FontWeight->"Bold"], 
+  StyleBox[" ",
+   FontFamily->"Consolas",
+   FontSize->16,
+   FontWeight->"Bold"], 
+  StyleBox[
+   RowBox[{"(*", " ", 
+    RowBox[{"upper", " ", "limit", " ", "of", " ", "eigenvalue"}], "*)"}],
+   FontFamily->"Consolas",
+   FontSize->16,
+   FontWeight->"Bold"]}], "\[IndentingNewLine]", 
+ StyleBox[
+  RowBox[{"s", "=", 
+   RowBox[{"ParametricNDSolve", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"-", "0.5"}], "*", 
+          RowBox[{
+           RowBox[{"y", "''"}], "[", "x", "]"}]}], "+", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            SuperscriptBox["x", "4"], "-", "temp"}], ")"}], "*", 
+          RowBox[{"y", "[", "x", "]"}]}]}], "\[Equal]", "0"}], ",", 
+       RowBox[{
+        RowBox[{"y", "[", "0", "]"}], "\[Equal]", 
+        StyleBox[
+         StyleBox[
+          StyleBox[
+           StyleBox["0",
+            FontFamily->"Consolas",
+            FontSize->16,
+            FontWeight->"Bold"],
+           FontFamily->"Consolas",
+           FontSize->16,
+           FontWeight->"Bold"],
+          FontFamily->"Consolas",
+          FontSize->16,
+          FontWeight->"Bold"],
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"]}], ",", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"y", "'"}], "[", "0", "]"}], "\[Equal]", 
+        StyleBox[
+         StyleBox[
+          StyleBox[
+           StyleBox[
+            StyleBox[
+             StyleBox["1",
+              FontFamily->"Consolas",
+              FontSize->16,
+              FontWeight->"Bold"],
+             FontFamily->"Consolas",
+             FontSize->16,
+             FontWeight->"Bold"],
+            FontFamily->"Consolas",
+            FontSize->16,
+            FontWeight->"Bold"],
+           FontFamily->"Consolas",
+           FontSize->16,
+           FontWeight->"Bold"],
+          FontFamily->"Consolas",
+          FontSize->16,
+          FontWeight->"Bold"],
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"]}]}], "}"}], ",", "y", ",", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", 
+       RowBox[{
+        StyleBox[
+         StyleBox[
+          StyleBox[
+           StyleBox[
+            StyleBox["-",
+             FontFamily->"Consolas",
+             FontSize->16,
+             FontWeight->"Bold"],
+            FontFamily->"Consolas",
+            FontSize->16,
+            FontWeight->"Bold"],
+           FontFamily->"Consolas",
+           FontSize->16,
+           FontWeight->"Bold"],
+          FontFamily->"Consolas",
+          FontSize->16,
+          FontWeight->"Bold"],
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"], "xlim"}], 
+       StyleBox[
+        StyleBox[
+         StyleBox[
+          StyleBox[
+           StyleBox[
+            StyleBox[
+             StyleBox[
+              StyleBox[",",
+               FontFamily->"Consolas",
+               FontSize->16,
+               FontWeight->"Bold"],
+              FontFamily->"Consolas",
+              FontSize->16,
+              FontWeight->"Bold"],
+             FontFamily->"Consolas",
+             FontSize->16,
+             FontWeight->"Bold"],
+            FontFamily->"Consolas",
+            FontSize->16,
+            FontWeight->"Bold"],
+           FontFamily->"Consolas",
+           FontSize->16,
+           FontWeight->"Bold"],
+          FontFamily->"Consolas",
+          FontSize->16,
+          FontWeight->"Bold"],
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"],
+        FontFamily->"Consolas",
+        FontSize->16,
+        FontWeight->"Bold"], 
+       StyleBox[
+        RowBox[{"x", 
+         StyleBox[
+          StyleBox[
+           StyleBox[
+            StyleBox[
+             StyleBox[
+              StyleBox[
+               StyleBox["l",
+                FontFamily->"Consolas",
+                FontSize->16,
+                FontWeight->"Bold"],
+               FontFamily->"Consolas",
+               FontSize->16,
+               FontWeight->"Bold"],
+              FontFamily->"Consolas",
+              FontSize->16,
+              FontWeight->"Bold"],
+             FontFamily->"Consolas",
+             FontSize->16,
+             FontWeight->"Bold"],
+            FontFamily->"Consolas",
+            FontSize->16,
+            FontWeight->"Bold"],
+           FontFamily->"Consolas",
+           FontSize->16,
+           FontWeight->"Bold"],
+          FontFamily->"Consolas",
+          FontSize->16,
+          FontWeight->"Bold"], "im"}]]}], "}"}], ",", 
+     RowBox[{"{", "temp", "}"}]}], "]"}]}],
+  FontFamily->"Consolas",
+  FontSize->16,
+  FontWeight->"Bold"], "\[IndentingNewLine]", 
+ StyleBox[
+  RowBox[{"Manipulate", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"y1", "=", 
+         RowBox[{
+          RowBox[{"y", "[", "t", "]"}], "/.", "s"}]}], ";"}], "/.", "s"}], 
+      ",", 
+      RowBox[{"Plot", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"y1", "[", "x", "]"}], "/.", "s"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", 
+          RowBox[{
+           StyleBox[
+            StyleBox[
+             StyleBox[
+              StyleBox[
+               StyleBox[
+                StyleBox[
+                 StyleBox[
+                  StyleBox["-",
+                   FontFamily->"Consolas",
+                   FontSize->16,
+                   FontWeight->"Bold"],
+                  FontFamily->"Consolas",
+                  FontSize->16,
+                  FontWeight->"Bold"],
+                 FontFamily->"Consolas",
+                 FontSize->16,
+                 FontWeight->"Bold"],
+                FontFamily->"Consolas",
+                FontSize->16,
+                FontWeight->"Bold"],
+               FontFamily->"Consolas",
+               FontSize->16,
+               FontWeight->"Bold"],
+              FontFamily->"Consolas",
+              FontSize->16,
+              FontWeight->"Bold"],
+             FontFamily->"Consolas",
+             FontSize->16,
+             FontWeight->"Bold"],
+            FontFamily->"Consolas",
+            FontSize->16,
+            FontWeight->"Bold"], 
+           StyleBox[
+            RowBox[{
+             StyleBox["xm",
+              FontFamily->"Consolas",
+              FontSize->16,
+              FontWeight->"Bold"], "in"}]]}], ",", 
+          StyleBox[
+           RowBox[{
+            StyleBox[
+             StyleBox[
+              StyleBox[
+               StyleBox[
+                StyleBox[
+                 StyleBox[
+                  StyleBox[
+                   StyleBox[
+                    StyleBox["x",
+                    FontFamily->"Consolas",
+                    FontSize->16,
+                    FontWeight->"Bold"],
+                    FontFamily->"Consolas",
+                    FontSize->16,
+                    FontWeight->"Bold"],
+                   FontFamily->"Consolas",
+                   FontSize->16,
+                   FontWeight->"Bold"],
+                  FontFamily->"Consolas",
+                  FontSize->16,
+                  FontWeight->"Bold"],
+                 FontFamily->"Consolas",
+                 FontSize->16,
+                 FontWeight->"Bold"],
+                FontFamily->"Consolas",
+                FontSize->16,
+                FontWeight->"Bold"],
+               FontFamily->"Consolas",
+               FontSize->16,
+               FontWeight->"Bold"],
+              FontFamily->"Consolas",
+              FontSize->16,
+              FontWeight->"Bold"],
+             FontFamily->"Consolas",
+             FontSize->16,
+             FontWeight->"Bold"], "m", 
+            StyleBox[
+             StyleBox[
+              StyleBox[
+               StyleBox[
+                StyleBox[
+                 StyleBox[
+                  StyleBox[
+                   StyleBox[
+                    StyleBox[
+                    StyleBox["i",
+                    FontFamily->"Consolas",
+                    FontSize->16,
+                    FontWeight->"Bold"],
+                    FontFamily->"Consolas",
+                    FontSize->16,
+                    FontWeight->"Bold"],
+                    FontFamily->"Consolas",
+                    FontSize->16,
+                    FontWeight->"Bold"],
+                   FontFamily->"Consolas",
+                   FontSize->16,
+                   FontWeight->"Bold"],
+                  FontFamily->"Consolas",
+                  FontSize->16,
+                  FontWeight->"Bold"],
+                 FontFamily->"Consolas",
+                 FontSize->16,
+                 FontWeight->"Bold"],
+                FontFamily->"Consolas",
+                FontSize->16,
+                FontWeight->"Bold"],
+               FontFamily->"Consolas",
+               FontSize->16,
+               FontWeight->"Bold"],
+              FontFamily->"Consolas",
+              FontSize->16,
+              FontWeight->"Bold"],
+             FontFamily->"Consolas",
+             FontSize->16,
+             FontWeight->"Bold"], 
+            StyleBox[
+             StyleBox[
+              StyleBox[
+               StyleBox[
+                StyleBox[
+                 StyleBox[
+                  StyleBox[
+                   StyleBox["n",
+                    FontFamily->"Consolas",
+                    FontSize->16,
+                    FontWeight->"Bold"],
+                   FontFamily->"Consolas",
+                   FontSize->16,
+                   FontWeight->"Bold"],
+                  FontFamily->"Consolas",
+                  FontSize->16,
+                  FontWeight->"Bold"],
+                 FontFamily->"Consolas",
+                 FontSize->16,
+                 FontWeight->"Bold"],
+                FontFamily->"Consolas",
+                FontSize->16,
+                FontWeight->"Bold"],
+               FontFamily->"Consolas",
+               FontSize->16,
+               FontWeight->"Bold"],
+              FontFamily->"Consolas",
+              FontSize->16,
+              FontWeight->"Bold"],
+             FontFamily->"Consolas",
+             FontSize->16,
+             FontWeight->"Bold"]}]]}], "}"}]}], "]"}]}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"t", ",", 
+      StyleBox[
+       RowBox[{
+        StyleBox["tm",
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"], "in"}]], ",", 
+      StyleBox[
+       RowBox[{
+        StyleBox[
+         StyleBox[
+          StyleBox[
+           StyleBox[
+            StyleBox["t",
+             FontFamily->"Consolas",
+             FontSize->16,
+             FontWeight->"Bold"],
+            FontFamily->"Consolas",
+            FontSize->16,
+            FontWeight->"Bold"],
+           FontFamily->"Consolas",
+           FontSize->16,
+           FontWeight->"Bold"],
+          FontFamily->"Consolas",
+          FontSize->16,
+          FontWeight->"Bold"],
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"], "ma", 
+        StyleBox[
+         StyleBox[
+          StyleBox["x",
+           FontFamily->"Consolas",
+           FontSize->16,
+           FontWeight->"Bold"],
+          FontFamily->"Consolas",
+          FontSize->16,
+          FontWeight->"Bold"],
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"]}]]}], "}"}], 
+    StyleBox[
+     StyleBox[
+      StyleBox[",",
+       FontFamily->"Consolas",
+       FontSize->16,
+       FontWeight->"Bold"],
+      FontFamily->"Consolas",
+      FontSize->16,
+      FontWeight->"Bold"],
+     FontFamily->"Consolas",
+     FontSize->16,
+     FontWeight->"Bold"], 
+    RowBox[{
+     StyleBox[
+      StyleBox[
+       StyleBox["{",
+        FontFamily->"Consolas",
+        FontSize->16,
+        FontWeight->"Bold"],
+       FontFamily->"Consolas",
+       FontSize->16,
+       FontWeight->"Bold"],
+      FontFamily->"Consolas",
+      FontSize->16,
+      FontWeight->"Bold"], 
+     RowBox[{
+      StyleBox[
+       RowBox[{
+        StyleBox["xm",
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"], "in"}]], 
+      StyleBox[
+       StyleBox[
+        StyleBox[",",
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"],
+        FontFamily->"Consolas",
+        FontSize->16,
+        FontWeight->"Bold"],
+       FontFamily->"Consolas",
+       FontSize->16,
+       FontWeight->"Bold"], 
+      StyleBox[
+       RowBox[{
+        StyleBox[
+         StyleBox[
+          StyleBox[
+           StyleBox[
+            StyleBox[
+             StyleBox["0",
+              FontFamily->"Consolas",
+              FontSize->16,
+              FontWeight->"Bold"],
+             FontFamily->"Consolas",
+             FontSize->16,
+             FontWeight->"Bold"],
+            FontFamily->"Consolas",
+            FontSize->16,
+            FontWeight->"Bold"],
+           FontFamily->"Consolas",
+           FontSize->16,
+           FontWeight->"Bold"],
+          FontFamily->"Consolas",
+          FontSize->16,
+          FontWeight->"Bold"],
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"], ".0", 
+        StyleBox[
+         StyleBox[
+          StyleBox[
+           StyleBox["1",
+            FontFamily->"Consolas",
+            FontSize->16,
+            FontWeight->"Bold"],
+           FontFamily->"Consolas",
+           FontSize->16,
+           FontWeight->"Bold"],
+          FontFamily->"Consolas",
+          FontSize->16,
+          FontWeight->"Bold"],
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"]}]], 
+      StyleBox[
+       StyleBox[
+        StyleBox[",",
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"],
+        FontFamily->"Consolas",
+        FontSize->16,
+        FontWeight->"Bold"],
+       FontFamily->"Consolas",
+       FontSize->16,
+       FontWeight->"Bold"], 
+      StyleBox[
+       RowBox[{
+        StyleBox[
+         StyleBox[
+          StyleBox[
+           StyleBox[
+            StyleBox[
+             StyleBox["x",
+              FontFamily->"Consolas",
+              FontSize->16,
+              FontWeight->"Bold"],
+             FontFamily->"Consolas",
+             FontSize->16,
+             FontWeight->"Bold"],
+            FontFamily->"Consolas",
+            FontSize->16,
+            FontWeight->"Bold"],
+           FontFamily->"Consolas",
+           FontSize->16,
+           FontWeight->"Bold"],
+          FontFamily->"Consolas",
+          FontSize->16,
+          FontWeight->"Bold"],
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"], "li", 
+        StyleBox[
+         StyleBox[
+          StyleBox[
+           StyleBox["m",
+            FontFamily->"Consolas",
+            FontSize->16,
+            FontWeight->"Bold"],
+           FontFamily->"Consolas",
+           FontSize->16,
+           FontWeight->"Bold"],
+          FontFamily->"Consolas",
+          FontSize->16,
+          FontWeight->"Bold"],
+         FontFamily->"Consolas",
+         FontSize->16,
+         FontWeight->"Bold"]}]]}], 
+     StyleBox[
+      StyleBox[
+       StyleBox["}",
+        FontFamily->"Consolas",
+        FontSize->16,
+        FontWeight->"Bold"],
+       FontFamily->"Consolas",
+       FontSize->16,
+       FontWeight->"Bold"],
+      FontFamily->"Consolas",
+      FontSize->16,
+      FontWeight->"Bold"]}]}], "]"}],
+  FontFamily->"Consolas",
+  FontSize->16,
+  FontWeight->"Bold"]}], "Input",
+ CellChangeTimes->{{3.7978663185604954`*^9, 3.797866321082793*^9}},
+ CellLabel->"In[59]:=",ExpressionUUID->"0f9fe620-bd19-44de-9335-b66dc682d1ce"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"y", "\[Rule]", 
+   TagBox[
+    TemplateBox[{RowBox[{
+        StyleBox[
+         TagBox["ParametricFunction", "SummaryHead"], 
+         "NonInterpretableSummary"], 
+        StyleBox["[", "NonInterpretableSummary"], 
+        DynamicModuleBox[{
+         Typeset`open$$ = False, Typeset`embedState$$ = "Ready"}, 
+         TemplateBox[{
+           PaneSelectorBox[{False -> GridBox[{{
+                 PaneBox[
+                  ButtonBox[
+                   DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "SquarePlusIconMedium"]], 
+                   ButtonFunction :> (Typeset`open$$ = True), Appearance -> 
+                   None, Evaluator -> Automatic, Method -> "Preemptive"], 
+                  Alignment -> {Center, Center}, ImageSize -> 
+                  Dynamic[{
+                    Automatic, 3.5 CurrentValue["FontCapHeight"]/
+                    AbsoluteCurrentValue[Magnification]}]], 
+                 GraphicsBox[{{}, {}, {
+                    GrayLevel[0.55], 
+                    AbsoluteThickness[1.5], 
+                    Opacity[1.], 
+                    
+                    LineBox[{{9.09090909090909*^-8, 9.090909090884856*^-8}, {
+                    0.0874367476365131, 0.08197166587636243}, {
+                    0.18222810297558026`, 0.1358255024317191}, {
+                    0.27073779576926765`, 0.13315455086535802`}, {
+                    0.3575112797365835, 0.08143316377978886}, {
+                    0.4516394623155443, -0.007347854733426912}, {
+                    0.5394859823491253, -0.08816932746972758}, {
+                    0.6346872009943513, -0.13787329990112937`}, {
+                    0.7281522108132057, -0.12816574147938434`}, {
+                    0.8153355580866803, -0.07001063326902106}, {
+                    0.9098736039718, 0.02121659675083076}, {
+                    0.9999999090909091, 0.10024804094746914`}}]}, {
+                    GrayLevel[0.55], 
+                    AbsoluteThickness[1.5], 
+                    Opacity[1.], 
+                    
+                    LineBox[{{9.09090909090909*^-8, 9.090909090880112*^-8}, {
+                    0.0874367476365131, 0.08090369567458766}, {
+                    0.18222810297558026`, 0.12746559200130417`}, {
+                    0.27073779576926765`, 0.1116266937044405}, {
+                    0.3575112797365835, 0.046963725126600256`}, {
+                    0.4516394623155443, -0.04509050859182233}, {
+                    0.5394859823491253, -0.11115559892361665`}, {
+                    0.6346872009943513, -0.12642564594664163`}, {
+                    0.7281522108132057, -0.07740196037964171}, {
+                    0.8153355580866803, 0.004179083230780074}, {
+                    0.9098736039718, 0.08937493944143977}, {
+                    0.9999999090909091, 0.12834702174618903`}}]}, {
+                    GrayLevel[0.55], 
+                    AbsoluteThickness[1.5], 
+                    Opacity[1.], 
+                    
+                    LineBox[{{9.09090909090909*^-8, 9.090909090875369*^-8}, {
+                    0.0874367476365131, 0.07984396759533968}, {
+                    0.18222810297558026`, 0.11939549826670079`}, {
+                    0.27073779576926765`, 0.09184904274707059}, {
+                    0.3575112797365835, 0.017913117173780694`}, {
+                    0.4516394623155443, -0.07109962300031061}, {
+                    0.5394859823491253, -0.11717052830989395`}, {
+                    0.6346872009943513, -0.09879571259704382}, {
+                    0.7281522108132057, -0.022693471356141894`}, {
+                    0.8153355580866803, 0.06128703302641453}, {
+                    0.9098736039718, 0.11605625481609519`}, {
+                    0.9999999090909091, 0.10415981267620744`}}]}, {
+                    GrayLevel[0.55], 
+                    AbsoluteThickness[1.5], 
+                    Opacity[1.], 
+                    
+                    LineBox[{{9.09090909090909*^-8, 9.090909090870287*^-8}, {
+                    0.0874367476365131, 0.07879243663407876}, {
+                    0.18222810297558026`, 0.1116081822210312}, {
+                    0.27073779576926765`, 0.07372482040530459}, {
+                    0.3575112797365835, -0.006267252216927747}, {
+                    0.4516394623155443, -0.08743897872291118}, {
+                    0.5394859823491253, -0.11109134853087661`}, {
+                    0.6346872009943513, -0.06371549528296311}, {
+                    0.7281522108132057, 0.02544576624054603}, {
+                    0.8153355580866803, 0.09464282937855747}, {
+                    0.9098736039718, 0.10731931496853601`}, {
+                    0.9999999090909091, 0.0516787429232188}}]}, {
+                    GrayLevel[0.55], 
+                    AbsoluteThickness[1.5], 
+                    Opacity[1.], 
+                    LineBox[{{9.09090909090909*^-8, 9.090909090865543*^-8}, {
+                    0.0874367476365131, 0.07774905743802465}, {
+                    0.18222810297558026`, 0.10409673959866513`}, {
+                    0.27073779576926765`, 0.05716133039337165}, {
+                    0.3575112797365835, -0.026084496726167965`}, {
+                    0.4516394623155443, -0.09591154799603378}, {
+                    0.5394859823491253, -0.09685594593277226}, {
+                    0.6346872009943513, -0.02730376120671303}, {
+                    0.7281522108132057, 0.061646715198529656`}, {
+                    0.8153355580866803, 0.1046634148537508}, {0.9098736039718,
+                     0.07509702498429204}, {
+                    0.9999999090909091, -0.006536873471333553}}]}, {
+                    GrayLevel[0.55], 
+                    AbsoluteThickness[1.5], 
+                    Opacity[1.], 
+                    
+                    LineBox[{{9.09090909090909*^-8, 9.0909090908608*^-8}, {
+                    0.0874367476365131, 0.07671378556951527}, {
+                    0.18222810297558026`, 0.09685439581479163}, {
+                    0.27073779576926765`, 0.042069810325321415`}, {
+                    0.3575112797365835, -0.042006785469922474`}, {
+                    0.4516394623155443, -0.09808544986431629}, {
+                    0.5394859823491253, -0.07760167026270944}, {
+                    0.6346872009943513, 0.0063643674428021085`}, {
+                    0.7281522108132057, 0.08405712128907425}, {
+                    0.8153355580866803, 0.09555213349985489}, {
+                    0.9098736039718, 0.03202960165577907}, {
+                    0.9999999090909091, -0.054402034659985464`}}]}}, 
+                  AspectRatio -> 1, Axes -> {False, False}, 
+                  AxesLabel -> {None, None}, AxesOrigin -> {0, 0}, Background -> 
+                  GrayLevel[0.93], BaseStyle -> {FontFamily -> "Arial"}, 
+                  DisplayFunction -> Identity, 
+                  Frame -> {{True, True}, {True, True}}, 
+                  FrameLabel -> {{None, None}, {None, None}}, FrameStyle -> 
+                  Directive[
+                    Thickness[Tiny], 
+                    GrayLevel[0.7]], 
+                  FrameTicks -> {{None, None}, {None, None}}, 
+                  GridLines -> {None, None}, GridLinesStyle -> Directive[
+                    GrayLevel[0.5, 0.4]], ImageSize -> {Automatic, 
+                    Dynamic[
+                    3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                    Magnification])]}, LabelStyle -> {FontFamily -> "Arial"}, 
+                  Method -> {"ScalingFunctions" -> None}, 
+                  PlotRange -> {All, All}, PlotRangeClipping -> True, 
+                  PlotRangePadding -> {Automatic, Automatic}, 
+                  Ticks -> {Automatic, Automatic}], 
+                 GridBox[{{
+                    RowBox[{
+                    TagBox["\"Expression: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox[
+                    TagBox["y", HoldForm], "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox["\"Parameters: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox[
+                    RowBox[{"{", "temp", "}"}], "SummaryItem"]}]}}, 
+                  GridBoxAlignment -> {
+                   "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, 
+                  AutoDelete -> False, 
+                  GridBoxItemSize -> {
+                   "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+                  GridBoxSpacings -> {
+                   "Columns" -> {{2}}, "Rows" -> {{Automatic}}}, 
+                  BaseStyle -> {
+                   ShowStringCharacters -> False, NumberMarks -> False, 
+                    PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+               GridBoxAlignment -> {"Rows" -> {{Top}}}, AutoDelete -> False, 
+               GridBoxItemSize -> {
+                "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+               BaselinePosition -> {1, 1}], True -> GridBox[{{
+                 PaneBox[
+                  ButtonBox[
+                   DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "SquareMinusIconMedium"]], 
+                   ButtonFunction :> (Typeset`open$$ = False), Appearance -> 
+                   None, Evaluator -> Automatic, Method -> "Preemptive"], 
+                  Alignment -> {Center, Center}, ImageSize -> 
+                  Dynamic[{
+                    Automatic, 3.5 CurrentValue["FontCapHeight"]/
+                    AbsoluteCurrentValue[Magnification]}]], 
+                 GraphicsBox[{{}, {}, {
+                    GrayLevel[0.55], 
+                    AbsoluteThickness[1.5], 
+                    Opacity[1.], 
+                    
+                    LineBox[{{9.09090909090909*^-8, 9.090909090884856*^-8}, {
+                    0.0874367476365131, 0.08197166587636243}, {
+                    0.18222810297558026`, 0.1358255024317191}, {
+                    0.27073779576926765`, 0.13315455086535802`}, {
+                    0.3575112797365835, 0.08143316377978886}, {
+                    0.4516394623155443, -0.007347854733426912}, {
+                    0.5394859823491253, -0.08816932746972758}, {
+                    0.6346872009943513, -0.13787329990112937`}, {
+                    0.7281522108132057, -0.12816574147938434`}, {
+                    0.8153355580866803, -0.07001063326902106}, {
+                    0.9098736039718, 0.02121659675083076}, {
+                    0.9999999090909091, 0.10024804094746914`}}]}, {
+                    GrayLevel[0.55], 
+                    AbsoluteThickness[1.5], 
+                    Opacity[1.], 
+                    
+                    LineBox[{{9.09090909090909*^-8, 9.090909090880112*^-8}, {
+                    0.0874367476365131, 0.08090369567458766}, {
+                    0.18222810297558026`, 0.12746559200130417`}, {
+                    0.27073779576926765`, 0.1116266937044405}, {
+                    0.3575112797365835, 0.046963725126600256`}, {
+                    0.4516394623155443, -0.04509050859182233}, {
+                    0.5394859823491253, -0.11115559892361665`}, {
+                    0.6346872009943513, -0.12642564594664163`}, {
+                    0.7281522108132057, -0.07740196037964171}, {
+                    0.8153355580866803, 0.004179083230780074}, {
+                    0.9098736039718, 0.08937493944143977}, {
+                    0.9999999090909091, 0.12834702174618903`}}]}, {
+                    GrayLevel[0.55], 
+                    AbsoluteThickness[1.5], 
+                    Opacity[1.], 
+                    
+                    LineBox[{{9.09090909090909*^-8, 9.090909090875369*^-8}, {
+                    0.0874367476365131, 0.07984396759533968}, {
+                    0.18222810297558026`, 0.11939549826670079`}, {
+                    0.27073779576926765`, 0.09184904274707059}, {
+                    0.3575112797365835, 0.017913117173780694`}, {
+                    0.4516394623155443, -0.07109962300031061}, {
+                    0.5394859823491253, -0.11717052830989395`}, {
+                    0.6346872009943513, -0.09879571259704382}, {
+                    0.7281522108132057, -0.022693471356141894`}, {
+                    0.8153355580866803, 0.06128703302641453}, {
+                    0.9098736039718, 0.11605625481609519`}, {
+                    0.9999999090909091, 0.10415981267620744`}}]}, {
+                    GrayLevel[0.55], 
+                    AbsoluteThickness[1.5], 
+                    Opacity[1.], 
+                    
+                    LineBox[{{9.09090909090909*^-8, 9.090909090870287*^-8}, {
+                    0.0874367476365131, 0.07879243663407876}, {
+                    0.18222810297558026`, 0.1116081822210312}, {
+                    0.27073779576926765`, 0.07372482040530459}, {
+                    0.3575112797365835, -0.006267252216927747}, {
+                    0.4516394623155443, -0.08743897872291118}, {
+                    0.5394859823491253, -0.11109134853087661`}, {
+                    0.6346872009943513, -0.06371549528296311}, {
+                    0.7281522108132057, 0.02544576624054603}, {
+                    0.8153355580866803, 0.09464282937855747}, {
+                    0.9098736039718, 0.10731931496853601`}, {
+                    0.9999999090909091, 0.0516787429232188}}]}, {
+                    GrayLevel[0.55], 
+                    AbsoluteThickness[1.5], 
+                    Opacity[1.], 
+                    
+                    LineBox[{{9.09090909090909*^-8, 9.090909090865543*^-8}, {
+                    0.0874367476365131, 0.07774905743802465}, {
+                    0.18222810297558026`, 0.10409673959866513`}, {
+                    0.27073779576926765`, 0.05716133039337165}, {
+                    0.3575112797365835, -0.026084496726167965`}, {
+                    0.4516394623155443, -0.09591154799603378}, {
+                    0.5394859823491253, -0.09685594593277226}, {
+                    0.6346872009943513, -0.02730376120671303}, {
+                    0.7281522108132057, 0.061646715198529656`}, {
+                    0.8153355580866803, 0.1046634148537508}, {0.9098736039718,
+                     0.07509702498429204}, {
+                    0.9999999090909091, -0.006536873471333553}}]}, {
+                    GrayLevel[0.55], 
+                    AbsoluteThickness[1.5], 
+                    Opacity[1.], 
+                    
+                    LineBox[{{9.09090909090909*^-8, 9.0909090908608*^-8}, {
+                    0.0874367476365131, 0.07671378556951527}, {
+                    0.18222810297558026`, 0.09685439581479163}, {
+                    0.27073779576926765`, 0.042069810325321415`}, {
+                    0.3575112797365835, -0.042006785469922474`}, {
+                    0.4516394623155443, -0.09808544986431629}, {
+                    0.5394859823491253, -0.07760167026270944}, {
+                    0.6346872009943513, 0.0063643674428021085`}, {
+                    0.7281522108132057, 0.08405712128907425}, {
+                    0.8153355580866803, 0.09555213349985489}, {
+                    0.9098736039718, 0.03202960165577907}, {
+                    0.9999999090909091, -0.054402034659985464`}}]}}, 
+                  AspectRatio -> 1, Axes -> {False, False}, 
+                  AxesLabel -> {None, None}, AxesOrigin -> {0, 0}, Background -> 
+                  GrayLevel[0.93], BaseStyle -> {FontFamily -> "Arial"}, 
+                  DisplayFunction -> Identity, 
+                  Frame -> {{True, True}, {True, True}}, 
+                  FrameLabel -> {{None, None}, {None, None}}, FrameStyle -> 
+                  Directive[
+                    Thickness[Tiny], 
+                    GrayLevel[0.7]], 
+                  FrameTicks -> {{None, None}, {None, None}}, 
+                  GridLines -> {None, None}, GridLinesStyle -> Directive[
+                    GrayLevel[0.5, 0.4]], ImageSize -> {Automatic, 
+                    Dynamic[
+                    3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                    Magnification])]}, LabelStyle -> {FontFamily -> "Arial"}, 
+                  Method -> {"ScalingFunctions" -> None}, 
+                  PlotRange -> {All, All}, PlotRangeClipping -> True, 
+                  PlotRangePadding -> {Automatic, Automatic}, 
+                  Ticks -> {Automatic, Automatic}], 
+                 GridBox[{{
+                    RowBox[{
+                    TagBox["\"Expression: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox[
+                    TagBox["y", HoldForm], "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox["\"Parameters: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox[
+                    RowBox[{"{", "temp", "}"}], "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox["\"Generator: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox["ParametricNDSolve", "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox[
+                    "\"Dependent variables: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox[
+                    RowBox[{"{", "y", "}"}], "SummaryItem"]}]}, {
+                    RowBox[{
+                    TagBox[
+                    "\"Independent variables: \"", "SummaryItemAnnotation"], 
+                    "\[InvisibleSpace]", 
+                    TagBox[
+                    RowBox[{"{", "x", "}"}], "SummaryItem"]}]}}, 
+                  GridBoxAlignment -> {
+                   "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, 
+                  AutoDelete -> False, 
+                  GridBoxItemSize -> {
+                   "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+                  GridBoxSpacings -> {
+                   "Columns" -> {{2}}, "Rows" -> {{Automatic}}}, 
+                  BaseStyle -> {
+                   ShowStringCharacters -> False, NumberMarks -> False, 
+                    PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+               GridBoxAlignment -> {"Rows" -> {{Top}}}, AutoDelete -> False, 
+               GridBoxItemSize -> {
+                "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+               BaselinePosition -> {1, 1}]}, 
+            Dynamic[Typeset`open$$], ImageSize -> Automatic]}, 
+          "SummaryPanel"], DynamicModuleValues :> {}], 
+        StyleBox["]", "NonInterpretableSummary"]}]},
+     "CopyTag",
+     DisplayFunction->(#& ),
+     InterpretationFunction->("ParametricFunction[<>]"& )],
+    False,
+    Editable->False,
+    SelectWithContents->True,
+    Selectable->False]}], "}"}]], "Output",
+ CellChangeTimes->{3.7978663219882026`*^9, 3.7978666061116853`*^9, 
+  3.7978668321076517`*^9, 3.7978668786637316`*^9, 3.797866983590008*^9},
+ CellLabel->"Out[63]=",ExpressionUUID->"b36e45d7-96e0-4ef5-9ad1-a27e94fa6eda"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`t$$ = 0, $CellContext`xmin$$ = 0.01, 
+    Typeset`show$$ = True, Typeset`bookmarkList$$ = {}, 
+    Typeset`bookmarkMode$$ = "Menu", Typeset`animator$$, Typeset`animvar$$ = 
+    1, Typeset`name$$ = "\"untitled\"", Typeset`specs$$ = {{
+      Hold[$CellContext`t$$], 0, 1}, {
+      Hold[$CellContext`xmin$$], 0.01, 5}}, Typeset`size$$ = {
+    235., {48., 52.}}, Typeset`update$$ = 0, Typeset`initDone$$, 
+    Typeset`skipInitDone$$ = True, $CellContext`t$25314$$ = 
+    0, $CellContext`xmin$25315$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`t$$ = 0, $CellContext`xmin$$ = 0.01}, 
+      "ControllerVariables" :> {
+        Hold[$CellContext`t$$, $CellContext`t$25314$$, 0], 
+        Hold[$CellContext`xmin$$, $CellContext`xmin$25315$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> {
+        ReplaceAll[$CellContext`y1 = ReplaceAll[
+            $CellContext`y[$CellContext`t$$], $CellContext`s]; 
+         Null, $CellContext`s], 
+        Plot[
+         ReplaceAll[
+          $CellContext`y1[$CellContext`x], $CellContext`s], {$CellContext`x, \
+-$CellContext`xmin$$, $CellContext`xmin$$}]}, 
+      "Specifications" :> {{$CellContext`t$$, 0, 1}, {$CellContext`xmin$$, 
+         0.01, 5}}, "Options" :> {}, "DefaultOptions" :> {}],
+     ImageSizeCache->{286., {108., 114.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{3.7978663219882026`*^9, 3.7978666061116853`*^9, 
+  3.7978668321076517`*^9, 3.7978668786637316`*^9, 3.7978669837495465`*^9},
+ CellLabel->"Out[64]=",ExpressionUUID->"70b6485f-ace8-4ef4-8129-ba9ca0dd010d"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["", "Section",
+ CellChangeTimes->{{3.797866636963931*^9, 3.7978666468544207`*^9}, 
+   3.7978668623037505`*^9},ExpressionUUID->"7793e0b4-3a95-4e8d-b74a-\
+ae6a8b5deecc"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["\n"], "Input",
+ CellChangeTimes->{{3.797866665487627*^9, 3.7978666867603636`*^9}, {
+   3.797866741484722*^9, 3.797866786613736*^9}, 
+   3.7978668594294944`*^9},ExpressionUUID->"ce12951f-61a3-4cc7-88d7-\
+7b59c42a7213"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Integrate","ilim",
+   "\:f3b5Invalid integration variable or limit(s) in \!\({{y \[Rule] \
+ParametricFunction[1, \
+Internal`Bag[\*StyleBox[\\\"\\\\\\\"\\<<\\>\\\\\\\"\\\",ShowStringCharacters->\
+False]\[InvisibleSpace]1\[InvisibleSpace]\*StyleBox[\\\"\\\\\\\"\\<>\\>\\\\\\\
+\"\\\",ShowStringCharacters->False]], 1, 1, {{temp$23545}, \
+System`Utilities`HashTable[\*StyleBox[\\\"\\\\\\\"\\<<\\>\\\\\\\"\\\",\
+ShowStringCharacters->False]\[InvisibleSpace]2\[InvisibleSpace]\*StyleBox[\\\"\
+\\\\\\\"\\<>\\>\\\\\\\"\\\",ShowStringCharacters->False]], {}, {}, {1}, \
+{Automatic, 0, 0}}, {NDSolve`base$23552, NDSolve`NDSolveParametricFunction[0, \
+{ParametricNDSolve, \
+Internal`Bag[\*StyleBox[\\\"\\\\\\\"\\<<\\>\\\\\\\"\\\",ShowStringCharacters->\
+False]\[InvisibleSpace]2\[InvisibleSpace]\*StyleBox[\\\"\\\\\\\"\\<>\\>\\\\\\\
+\"\\\",ShowStringCharacters->False]], None, ParametricNDSolve}, {{\
+\[LeftSkeleton]2\[RightSkeleton]}, {\[LeftSkeleton]4\[RightSkeleton]}, None, \
+{\[LeftSkeleton]4\[RightSkeleton]}}, {y}, \
+{{\[LeftSkeleton]3\[RightSkeleton]}, {}, {}, {}, {}}, {{\[LeftSkeleton]2\
+\[RightSkeleton]}}, {Automatic, Automatic, MachinePrecision, Automatic, \
+Automatic, Automatic, Automatic, None, None, Automatic, Automatic, Automatic, \
+Automatic, \*FractionBox[\(1\), \(10\)], 1, Automatic, Automatic, {}, {}, \
+Automatic, Automatic, None, None, None, Automatic, Automatic, Automatic}, \
+{Rule[\[LeftSkeleton]2\[RightSkeleton]], \
+Rule[\[LeftSkeleton]2\[RightSkeleton]], \
+Rule[\[LeftSkeleton]2\[RightSkeleton]], \
+Rule[\[LeftSkeleton]2\[RightSkeleton]], \
+Rule[\[LeftSkeleton]2\[RightSkeleton]], \
+Rule[\[LeftSkeleton]2\[RightSkeleton]], \
+Rule[\[LeftSkeleton]2\[RightSkeleton]]}, {}, All]}]}, \(-5\), 5}\).\:f3b5",2,
+   46,74,31458278617174497244,"Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ GeneratedCell->False,
+ CellAutoOverwrite->False,
+ CellChangeTimes->{
+  3.7978668029291964`*^9, 3.79786683960734*^9, {3.7978669966587577`*^9, 
+   3.797867000180032*^9}},ExpressionUUID->"ea6c084c-0a5b-4bf0-ab74-\
+7d56bf6ee9cf"]
+}, Open  ]],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.797866993972933*^9, 
+  3.797866994094596*^9}},ExpressionUUID->"c97187c5-a36f-4048-8b7e-\
+3ceb7c2530c7"],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.797849238433558*^9, 3.7978492799250093`*^9}, {
+   3.7978493770094285`*^9, 3.797849380561191*^9}, {3.7978495666562786`*^9, 
+   3.7978495766108713`*^9}, {3.7978496809942884`*^9, 3.79784968148892*^9}, {
+   3.797849878810813*^9, 3.79784988320767*^9}, {3.7978500738055124`*^9, 
+   3.7978500763586483`*^9}, {3.797850150481488*^9, 3.7978501718820124`*^9}, {
+   3.797850209301491*^9, 3.7978502505501275`*^9}, 
+   3.7978504994850006`*^9},ExpressionUUID->"268c652d-91b6-494f-8238-\
+dcab65c47097"],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.7978505090745993`*^9, 
+  3.797850509090548*^9}},ExpressionUUID->"353861f7-8228-4d98-9378-\
+2f3b4a2a2f8e"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1536, 781},
+WindowMargins->{{-8, Automatic}, {Automatic, -8}},
+FrontEndVersion->"12.0 for Microsoft Windows (64-bit) (April 8, 2019)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 234, 4, 96, "Title",ExpressionUUID->"bd269416-fa5f-4f11-95dc-4e563432ab28"],
+Cell[817, 28, 406, 6, 40, "Text",ExpressionUUID->"b5722ccb-cde3-4efd-a308-f237a42741a6"],
+Cell[CellGroupData[{
+Cell[1248, 38, 742, 12, 144, "Section",ExpressionUUID->"e3692672-8a94-4152-b21d-ac27719649a7"],
+Cell[CellGroupData[{
+Cell[2015, 54, 315, 7, 62, "Subsection",ExpressionUUID->"e5da860c-ab33-47d7-89f7-1244b4a78fee"],
+Cell[CellGroupData[{
+Cell[2355, 65, 20831, 686, 132, "Input",ExpressionUUID->"f4e98768-0c43-4101-b5dd-ba1995ce837c"],
+Cell[23189, 753, 20481, 365, 71, "Output",ExpressionUUID->"97ea0338-87a9-480a-81ab-e72c9b08e14d"],
+Cell[43673, 1120, 3701, 66, 241, "Output",ExpressionUUID->"b757e924-eea9-4410-86b1-f3b416088709"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[47423, 1192, 309, 7, 62, "Subsection",ExpressionUUID->"c8f2d635-9b23-42aa-8f5b-703eac55a07e"],
+Cell[CellGroupData[{
+Cell[47757, 1203, 18499, 645, 132, "Input",ExpressionUUID->"0f9fe620-bd19-44de-9335-b66dc682d1ce"],
+Cell[66259, 1850, 19034, 344, 71, "Output",ExpressionUUID->"b36e45d7-96e0-4ef5-9ad1-a27e94fa6eda"],
+Cell[85296, 2196, 2256, 45, 241, "Output",ExpressionUUID->"70b6485f-ace8-4ef4-8129-ba9ca0dd010d"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[87613, 2248, 172, 3, 67, "Section",ExpressionUUID->"7793e0b4-3a95-4e8d-b74a-ae6a8b5deecc"],
+Cell[CellGroupData[{
+Cell[87810, 2255, 231, 4, 48, "Input",ExpressionUUID->"ce12951f-61a3-4cc7-88d7-7b59c42a7213"],
+Cell[88044, 2261, 2063, 37, 131, "Message",ExpressionUUID->"ea6c084c-0a5b-4bf0-ab74-7d56bf6ee9cf"]
+}, Open  ]],
+Cell[90122, 2301, 152, 3, 28, InheritFromParent,ExpressionUUID->"c97187c5-a36f-4048-8b7e-3ceb7c2530c7"],
+Cell[90277, 2306, 535, 8, 28, "Input",ExpressionUUID->"268c652d-91b6-494f-8238-dcab65c47097"],
+Cell[90815, 2316, 154, 3, 28, "Input",ExpressionUUID->"353861f7-8228-4d98-9378-2f3b4a2a2f8e"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
